@@ -1,0 +1,82 @@
+﻿<div class="page">
+  <div class="page-header">
+    <div>
+      <h1 class="page-title">{{ isEditMode ? 'Edit Task' : 'New Task' }}</h1>
+      <p class="page-sub">{{ isEditMode ? 'Update the task details below' : 'Fill in the details to create a new task' }}</p>
+    </div>
+    <a routerLink="/tasks" class="btn-back">
+      <i class="ti ti-arrow-left" aria-hidden="true"></i> Back to Tasks
+    </a>
+  </div>
+
+  <div class="form-card">
+
+    <div *ngIf="message" class="alert" [class.alert-error]="isError">
+      <i class="ti" [class.ti-alert-circle]="isError" [class.ti-circle-check]="!isError" aria-hidden="true"></i>
+      {{ message }}
+    </div>
+
+    <form (ngSubmit)="onSubmit()">
+
+      <div class="form-group">
+        <label class="form-label">
+          Title <span class="required">*</span>
+        </label>
+        <input
+          class="form-input"
+          type="text"
+          [(ngModel)]="task.title"
+          name="title"
+          placeholder="e.g. Configure the CI/CD pipeline"
+          autocomplete="off"
+        />
+        <p class="form-hint">Give your task a short, clear name</p>
+      </div>
+
+      <div class="form-group">
+        <label class="form-label">Description</label>
+        <textarea
+          class="form-textarea"
+          [(ngModel)]="task.description"
+          name="description"
+          placeholder="Describe what needs to be done..."
+          rows="4"
+        ></textarea>
+        <p class="form-hint">Optional — add context or steps</p>
+      </div>
+
+      <div class="form-group">
+        <label class="form-label">Status</label>
+        <label class="toggle-row">
+          <div class="toggle-track">
+            <input
+              type="checkbox"
+              [(ngModel)]="task.completed"
+              name="completed"
+              class="toggle-input"
+            />
+            <span class="toggle-thumb"></span>
+          </div>
+          <div class="toggle-text">
+            <span class="toggle-title">Mark as completed</span>
+            <span class="toggle-sub">
+              {{ task.completed ? 'This task is done' : 'This task is still in progress' }}
+            </span>
+          </div>
+          <span class="status-pill" [class.pill-done]="task.completed" [class.pill-pending]="!task.completed">
+            {{ task.completed ? 'Completed' : 'In Progress' }}
+          </span>
+        </label>
+      </div>
+
+      <div class="form-footer">
+        <a routerLink="/tasks" class="btn-cancel">Cancel</a>
+        <button type="submit" class="btn-submit" [disabled]="isLoading">
+          <i class="ti" [class.ti-loader-2]="isLoading" [class.ti-check]="!isLoading && isEditMode" [class.ti-plus]="!isLoading && !isEditMode" aria-hidden="true"></i>
+          {{ isLoading ? 'Saving...' : (isEditMode ? 'Save Changes' : 'Create Task') }}
+        </button>
+      </div>
+
+    </form>
+  </div>
+</div>

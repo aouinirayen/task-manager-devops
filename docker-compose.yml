@@ -1,0 +1,53 @@
+﻿version: '3.8'
+
+services:
+
+  mysql:
+    image: mysql:8
+    container_name: taskmanager-db
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: taskdb
+    ports:
+      - "3307:3306"
+    volumes:
+      - mysql-data:/var/lib/mysql
+    networks:
+      - taskmanager-net
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  backend:
+    build: ./task-manager-backend/task-manager-backend
+    container_name: taskmanager-backend
+    ports:
+      - "8081:8081"
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:mysql://mysql:3306/taskdb
+      SPRING_DATASOURCE_USERNAME: root
+      SPRING_DATASOURCE_PASSWORD: root
+    depends_on:
+      mysql:
+        condition: service_healthy
+    networks:
+      - taskmanager-net
+
+  frontend:
+    build: ./task-manager-frontend
+    container_name: taskmanager-frontend
+    ports:
+      - "80:80"
+    depends_on:
+      - backend
+    networks:
+      - taskmanager-net
+
+volumes:
+  mysql-data:
+
+networks:
+  taskmanager-net:
+    driver: bridge

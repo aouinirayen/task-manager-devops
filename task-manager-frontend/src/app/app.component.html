@@ -1,0 +1,34 @@
+<div class="app-layout">
+  <aside class="sidebar">
+    <div class="sidebar-brand">
+      <div class="brand-icon">T</div>
+      <span class="brand-name">TaskManager</span>
+    </div>
+    <nav class="sidebar-nav">
+      <p class="nav-section-label">MAIN MENU</p>
+      <a routerLink="/dashboard" routerLinkActive="active" class="nav-item">
+        <i class="ti ti-layout-dashboard nav-icon" aria-hidden="true"></i>
+        Dashboard
+      </a>
+      <a routerLink="/tasks" routerLinkActive="active" [routerLinkActiveOptions]="{exact:true}" class="nav-item">
+        <i class="ti ti-clipboard-list nav-icon" aria-hidden="true"></i>
+        My Tasks
+      </a>
+      <a routerLink="/tasks/new" routerLinkActive="active" class="nav-item">
+        <i class="ti ti-circle-plus nav-icon" aria-hidden="true"></i>
+        New Task
+      </a>
+    </nav>
+    <div class="sidebar-footer">
+      <div class="user-avatar">D</div>
+      <div class="user-info">
+        <span class="user-name">DevOps Intern</span>
+        <span class="user-role"></span>
+      </div>
+    </div>
+  </aside>
+  <main class="main-content">
+    <router-outlet></router-outlet>
+  </main>
+</div>
+

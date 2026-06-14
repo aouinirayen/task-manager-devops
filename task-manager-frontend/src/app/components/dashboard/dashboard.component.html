@@ -1,0 +1,103 @@
+﻿<div class="page">
+
+  <div class="page-header">
+    <div>
+      <h1 class="page-title">Dashboard</h1>
+      <p class="page-sub">Overview of your tasks and productivity</p>
+    </div>
+    <a routerLink="/tasks/new" class="btn-primary">
+      <i class="ti ti-plus"></i> New Task
+    </a>
+  </div>
+
+  <div class="stats-grid">
+    <div class="stat-card">
+      <div class="stat-icon blue">
+        <i class="ti ti-clipboard-list"></i>
+      </div>
+      <div class="stat-body">
+        <span class="stat-value">{{ total }}</span>
+        <span class="stat-label">Total Tasks</span>
+      </div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-icon green">
+        <i class="ti ti-circle-check"></i>
+      </div>
+      <div class="stat-body">
+        <span class="stat-value">{{ completed }}</span>
+        <span class="stat-label">Completed</span>
+      </div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-icon orange">
+        <i class="ti ti-clock"></i>
+      </div>
+      <div class="stat-body">
+        <span class="stat-value">{{ pending }}</span>
+        <span class="stat-label">In Progress</span>
+      </div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-icon purple">
+        <i class="ti ti-chart-pie"></i>
+      </div>
+      <div class="stat-body">
+        <span class="stat-value">{{ rate }}%</span>
+        <span class="stat-label">Completion Rate</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="progress-card">
+    <div class="progress-header">
+      <span class="progress-label">Overall Progress</span>
+      <span class="progress-value">{{ rate }}%</span>
+    </div>
+    <div class="progress-track">
+      <div class="progress-fill" [style.width.%]="rate"></div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header">
+      <div class="card-title-group">
+        <i class="ti ti-list card-icon"></i>
+        <h2 class="card-title">Recent Tasks</h2>
+      </div>
+      <a routerLink="/tasks" class="link-all">View all <i class="ti ti-arrow-right"></i></a>
+    </div>
+
+    <div *ngIf="tasks.length === 0" class="empty-state">
+      <i class="ti ti-clipboard-x empty-icon"></i>
+      <p class="empty-title">No tasks yet</p>
+      <p class="empty-sub">Create your first task to get started</p>
+      <a routerLink="/tasks/new" class="btn-primary" style="display:inline-flex; margin-top:16px;">
+        <i class="ti ti-plus"></i> Create Task
+      </a>
+    </div>
+
+    <table *ngIf="tasks.length > 0" class="table">
+      <thead>
+        <tr>
+          <th>Title</th>
+          <th>Description</th>
+          <th>Status</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let task of tasks.slice(0,5)">
+          <td class="td-title">{{ task.title }}</td>
+          <td class="td-desc">{{ task.description || '—' }}</td>
+          <td>
+            <span class="badge" [class.badge-done]="task.completed" [class.badge-pending]="!task.completed">
+              <span class="dot"></span>
+              {{ task.completed ? 'Completed' : 'In Progress' }}
+            </span>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+</div>

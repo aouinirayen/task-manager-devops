@@ -1,0 +1,76 @@
+﻿<div class="page">
+  <div class="page-header">
+    <div>
+      <h1 class="page-title">My Tasks</h1>
+      <p class="page-sub">Manage and track all your tasks</p>
+    </div>
+    <a routerLink="/tasks/new" class="btn-primary">
+      <i class="ti ti-plus" aria-hidden="true"></i> New Task
+    </a>
+  </div>
+
+  <div class="card">
+    <div *ngIf="tasks.length === 0" class="empty-state">
+      <i class="ti ti-clipboard-x empty-icon" aria-hidden="true"></i>
+      <p class="empty-title">No tasks found</p>
+      <p class="empty-sub">Get started by creating your first task</p>
+      <a routerLink="/tasks/new" class="btn-primary" style="display:inline-flex;margin-top:20px;">
+        <i class="ti ti-plus" aria-hidden="true"></i> Create Task
+      </a>
+    </div>
+
+    <table *ngIf="tasks.length > 0" class="table">
+      <thead>
+        <tr>
+          <th>#</th>
+          <th>Title</th>
+          <th>Description</th>
+          <th>Status</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let task of tasks">
+          <ng-container *ngIf="editingTask && editingTask.id === task.id; else viewMode">
+            <td class="td-id">{{ task.id }}</td>
+            <td><input class="edit-input" [(ngModel)]="editingTask.title" name="editTitle" placeholder="Title" /></td>
+            <td><input class="edit-input" [(ngModel)]="editingTask.description" name="editDesc" placeholder="Description" /></td>
+            <td>
+              <label class="checkbox-wrap">
+                <input type="checkbox" [(ngModel)]="editingTask.completed" name="editCompleted" />
+                <span>{{ editingTask.completed ? 'Completed' : 'In Progress' }}</span>
+              </label>
+            </td>
+            <td class="td-actions">
+              <button class="btn-save" (click)="saveEdit()">
+                <i class="ti ti-check" aria-hidden="true"></i> Save
+              </button>
+              <button class="btn-cancel-sm" (click)="cancelEdit()">
+                <i class="ti ti-x" aria-hidden="true"></i> Cancel
+              </button>
+            </td>
+          </ng-container>
+          <ng-template #viewMode>
+            <td class="td-id">{{ task.id }}</td>
+            <td class="td-title">{{ task.title }}</td>
+            <td class="td-desc">{{ task.description || '—' }}</td>
+            <td>
+              <span class="badge" [class.badge-done]="task.completed" [class.badge-pending]="!task.completed">
+                <span class="dot"></span>
+                {{ task.completed ? 'Completed' : 'In Progress' }}
+              </span>
+            </td>
+            <td class="td-actions">
+              <button class="btn-edit" (click)="startEdit(task)">
+                <i class="ti ti-edit" aria-hidden="true"></i> Edit
+              </button>
+              <button class="btn-delete" (click)="deleteTask(task.id!)">
+                <i class="ti ti-trash" aria-hidden="true"></i> Delete
+              </button>
+            </td>
+          </ng-template>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
