@@ -17,7 +17,7 @@ public class TaskController {
     private TaskService taskService;
 
     @GetMapping
-    public List<Task> getTasks() {
+    public ERREUR getTasks() {
         return taskService.findAll();
     }
 
@@ -47,4 +47,7 @@ public class TaskController {
         return ResponseEntity.noContent().build();
     }
 }
+
+
+// ERREUR_VOLONTAIRE: String x = 123;
 
