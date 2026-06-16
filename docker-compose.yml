@@ -45,9 +45,35 @@ services:
     networks:
       - taskmanager-net
 
+
+  prometheus:
+    image: prom/prometheus:latest
+    container_name: taskmanager-prometheus
+    volumes:
+      - ./monitoring/prometheus.yml:/etc/prometheus/prometheus.yml
+    ports:
+      - "9090:9090"
+    networks:
+      - taskmanager-net
+    depends_on:
+      - backend
+
+  grafana:
+    image: grafana/grafana:latest
+    container_name: taskmanager-grafana
+    ports:
+      - "3000:3000"
+    environment:
+      GF_SECURITY_ADMIN_USER: admin
+      GF_SECURITY_ADMIN_PASSWORD: admin
+    networks:
+      - taskmanager-net
+    depends_on:
+      - prometheus
 volumes:
   mysql-data:
 
 networks:
   taskmanager-net:
     driver: bridge
+

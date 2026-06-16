@@ -1,15 +1,26 @@
 # Task Manager DevOps
 
-A full-stack task management application built with a complete DevOps pipeline.
+![CI/CD](https://github.com/aouinirayen/task-manager-devops/actions/workflows/ci.yml/badge.svg)
+
+## Overview
+A full-stack task management application built with a complete DevOps pipeline, developed as a pre-internship project for Linedata.
 
 ## Tech Stack
-- **Backend**: Spring Boot 3 + Java 17 + Spring Data JPA
-- **Frontend**: Angular 17 + TypeScript
-- **Database**: MySQL 8
-- **Containerization**: Docker + Docker Compose
-- **CI/CD**: GitHub Actions
+| Layer | Technology |
+|-------|-----------|
+| Frontend | Angular 17 + TypeScript |
+| Backend | Spring Boot 3 + Java 17 |
+| Database | MySQL 8 |
+| Containerization | Docker + Docker Compose |
+| Web Server | Nginx (reverse proxy) |
+| Monitoring | Prometheus + Grafana |
+| CI/CD | GitHub Actions |
 
-## Run locally with Docker
-```bash
-docker compose up --build
+## Architecture
+```
+Angular (port 80) -> Nginx -> Spring Boot (port 8081) -> MySQL (port 3306)
+                                      |
+                              Prometheus (9090)
+                                      |
+                               Grafana (3000)
 ```
