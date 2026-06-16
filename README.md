@@ -5,70 +5,98 @@
 ![Spring Boot](https://img.shields.io/badge/Spring%20Boot-3.x-green)
 ![Angular](https://img.shields.io/badge/Angular-17-red)
 
-> A full-stack task management application built with a complete DevOps pipeline, developed as a pre-internship project for **Linedata** (June 28, 2026).
+> A full-stack task management application built with a complete DevOps pipeline,
+> developed as a pre-internship project for **Linedata** — June 28, 2026.
 
 ---
 
 ## Architecture
+Angular (port 80)
 
-`````n Angular (port 80)
-       |
-     Nginx (reverse proxy)
-       |
- Spring Boot REST API (port 8081)
-       |
-    MySQL 8 (port 3306)
-       |
-Prometheus (9090) --> Grafana (3000)
-`````n
+↓
+
+Nginx (reverse proxy)
+
+↓
+
+Spring Boot REST API (port 8081)
+
+↓
+
+MySQL 8 (port 3306)
+
+↓
+
+Prometheus (9090) → Grafana (3000)
+
 ---
 
 ## Tech Stack
 
 | Layer | Technology | Details |
-|-------|-----------|---------|
-| Frontend | Angular 17 + TypeScript | SPA with routing, HTTP Client |
+|-------|------------|---------|
+| Frontend | Angular 17 + TypeScript | SPA, routing, HttpClient |
 | Backend | Spring Boot 3 + Java 17 | REST API, Spring Data JPA |
 | Database | MySQL 8 | Auto-schema via Hibernate |
 | Containerization | Docker + Docker Compose | 5 services orchestrated |
 | Web Server | Nginx | Reverse proxy + Angular Router |
 | Monitoring | Prometheus + Grafana | JVM, HTTP, CPU metrics |
-| CI/CD | GitHub Actions | Build, Test, Docker pipeline |
+| CI/CD | GitHub Actions | Build → Test → Docker |
 
 ---
 
 ## Features
 
-- **Dashboard** — task statistics, completion rate, progress bar
-- **My Tasks** — full CRUD with inline editing, status badges
-- **New Task** — form with animated toggle, validation
-- **Real-time monitoring** — Grafana dashboards from Spring Boot Actuator
+- **Dashboard** — statistics, completion rate, progress bar
+- **My Tasks** — full CRUD, inline editing, status badges
+- **New Task** — form with animated toggle and validation
+- **Monitoring** — real-time Grafana dashboards via Spring Boot Actuator
 
 ---
 
 ## Project Structure
+task-manager-devops/
 
-`````ntask-manager-devops/
 ├── task-manager-backend/
-│   ├── controller/   # REST endpoints
-│   ├── service/      # Business logic
-│   ├── repository/   # JpaRepository
-│   ├── entity/       # Task entity
+
+│   ├── controller/        # REST endpoints
+
+│   ├── service/           # Business logic
+
+│   ├── repository/        # JpaRepository
+
+│   ├── entity/            # Task entity
+
 │   ├── Dockerfile
+
 │   └── pom.xml
+
 ├── task-manager-frontend/
+
 │   ├── components/
+
 │   │   ├── dashboard/
+
 │   │   ├── task-list/
+
 │   │   └── task-form/
-│   ├── services/     # HTTP calls
+
+│   ├── services/          # HTTP calls to API
+
 │   ├── Dockerfile
+
 │   └── nginx.conf
+
 ├── monitoring/
+
 │   └── prometheus.yml
+
 ├── docker-compose.yml
-└── .github/workflows/ci.yml
-`````n
+
+└── .github/workflows/
+
+└── ci.yml
+
 ---
 
 ## REST API Endpoints
@@ -84,13 +112,16 @@ Prometheus (9090) --> Grafana (3000)
 ---
 
 ## CI/CD Pipeline
+git push → GitHub Actions triggers:
 
-`````nPush to main
-     |
-     +-- Build Spring Boot (Maven) --> Upload jar
-     +-- Build Angular (Node.js 18) --> Production build
-     +-- Build Docker Images (backend + frontend)
-`````n
+│
+
+├── Build Spring Boot (Maven) ──→ Upload .jar artifact
+
+├── Build Angular (Node.js 18) ─→ Production build
+
+└── Build Docker Images ────────→ backend + frontend
+
 ---
 
 ## Run Locally
@@ -99,32 +130,33 @@ Prometheus (9090) --> Grafana (3000)
 git clone https://github.com/aouinirayen/task-manager-devops.git
 cd task-manager-devops
 docker compose up --build
-`````n
+```
+
 | Service | URL |
 |---------|-----|
 | Frontend | http://localhost |
 | Backend API | http://localhost:8081/tasks |
 | Prometheus | http://localhost:9090 |
-| Grafana | http://localhost:3000 |
+| Grafana | http://localhost:3000 (admin/admin) |
 
 ---
 
 ## Monitoring
 
-Spring Boot exposes metrics via /actuator/prometheus.
-Prometheus scrapes every 5 seconds.
-Grafana shows: JVM Heap Memory, HTTP requests/sec, CPU usage.
+Spring Boot exposes metrics via `/actuator/prometheus`.
+Prometheus scrapes every **5 seconds**.
+Grafana visualizes: JVM Heap Memory, HTTP requests/sec, CPU usage.
 
 ---
 
 ## What I Learned
 
-- Containerizing multi-service apps with Docker Compose
-- Nginx as reverse proxy for Angular Router
-- Solving CORS between Docker containers
-- CI/CD pipeline that catches errors before production
-- Real-time monitoring with Prometheus + Grafana
-- Docker networking and service discovery
+- Containerizing a multi-service app with Docker Compose
+- Configuring Nginx as a reverse proxy for Angular Router
+- Solving CORS issues between Docker containers
+- Building a CI/CD pipeline that catches errors before production
+- Setting up real-time monitoring with Prometheus + Grafana
+- Understanding Docker networking and service discovery
 
 ---
 
